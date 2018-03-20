@@ -1,0 +1,15 @@
+{
+  "name": "exampleclient",
+  "version": "1.0.0",
+  "description": "a client example for sending and receiving msgs through websocket",
+  "main": "index.js",
+  "dependencies": {
+    "websocket": "^1.0.25"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

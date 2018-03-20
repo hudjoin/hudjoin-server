@@ -24,7 +24,7 @@ func main() {
 
 	go handleMessages()
 
-	log.Println("server started on localhost :8000")
+	log.Println("server started on localhost:8000")
 	err := http.ListenAndServe(":8000", nil)
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
@@ -33,6 +33,8 @@ func main() {
 }
 
 func handleConnections(w http.ResponseWriter, r *http.Request) {
+	log.Println(w)
+	log.Println(r)
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Fatal(err)
@@ -54,6 +56,7 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 func handleMessages() {
 	for {
 		msg := <-broadcast
+		log.Println(msg)
 		for client := range clients {
 			err := client.WriteJSON(msg)
 			if err != nil {
