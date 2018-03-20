@@ -4,7 +4,7 @@ var chatInput = document.getElementById('chatInput')
 
 window.WebSocket = window.WebSocket || window.MozWebSocket
 
-var connection = new WebSocket('wss://localhost:8000')
+var connection = new WebSocket('ws://localhost:8000/ws')
 
 connection.onopen = function () {
     chatDisplay.style.border = 2
@@ -35,6 +35,6 @@ sendButton.onclick = function (params) {
     var wrapper = {
         content: chatInput.value
     }
-    connection.send(wrapper)
+    connection.send(JSON.stringify(wrapper))
     chatInput.value = ''
 }

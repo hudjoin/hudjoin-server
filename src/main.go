@@ -10,7 +10,11 @@ import (
 var clients = make(map[*websocket.Conn]bool)
 var broadcast = make(chan Message)
 
-var upgrader = websocket.Upgrader{}
+var upgrader = websocket.Upgrader{
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
+}
 
 //Message struct to encapsulate a message
 type Message struct {
@@ -18,7 +22,7 @@ type Message struct {
 }
 
 func main() {
-	fs := http.FileServer(http.Dir("../public"))
+	fs := http.FileServer(http.Dir("../exampleClient"))
 	http.Handle("/", fs)
 	http.HandleFunc("/ws", handleConnections)
 
@@ -29,12 +33,9 @@ func main() {
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
-
 }
 
 func handleConnections(w http.ResponseWriter, r *http.Request) {
-	log.Println(w)
-	log.Println(r)
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Fatal(err)
